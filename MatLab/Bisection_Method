@@ -1,1 +1,29 @@
+# Bisection Method
 
+#CODE
+f = @(x) (x-1).^5; 
+a = -5;
+b = 3;
+tol = 1e-6;
+Iter = 100;
+
+root=Bisec_tion(f,a,b,tol,Iter);
+fprintf('Root using Bisection Method : %.7f\n',root);
+function root = Bisec_tion(f,a,b,tol,Iter)
+    for k= 1: Iter
+        c=(a+b)/2;
+        if abs(f(c))< tol || abs(a-b)<tol
+            root=c;
+            return
+        end
+        if f(a)*f(c)<0
+            b=c;
+        else
+            a=c;
+        end
+    end
+end
+
+#When to use Bisection Method ?
+-> While function is continuos
+-> For ODD multiflicity roots
