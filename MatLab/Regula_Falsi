@@ -1,1 +1,30 @@
+# Regula_Falsi Method
 
+#CODE
+f = @(x) (x-1).^5; 
+a = -5;
+b = 3;
+tol = 1e-6;
+Iter = 100;
+
+root=Regula_Falsi(f,a,b,tol,Iter);
+fprintf('Root using Regula Falsi Method : %.7f\n',root);
+
+function root = Regula_Falsi(f,a,b,tol,Iter)
+    for k = 1: Iter
+        c=(a*f(b)-b*f(a))/(f(b)-f(a));
+        if abs(f(c))< tol || abs(a-b)<tol
+            root=c;
+            return
+        end
+        if f(a)*f(c)<0
+            b=c;
+        else
+            a=c;
+        end
+    end
+end
+
+#When to use Regula_Falsi Method ?
+-> While function is continuos
+-> For ODD multiplicity roots
