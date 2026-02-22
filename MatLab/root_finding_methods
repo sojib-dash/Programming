@@ -1,0 +1,179 @@
+# Code
+clc; clear;
+
+% Function definition
+f  = @(x) (x-1).^5;
+df = @(x) 5*(x-1).^4;
+g  = @(x) 1 + (x-1).^5;
+
+% Parameters
+a = -5;
+b = 3;
+x0 = 2;
+x1 = 0;
+tol = 1e-6;
+Iter = 100;
+
+fprintf('Available Methods:\n');
+fprintf('1 -> Bisection\n');
+fprintf('2 -> Regula Falsi\n');
+fprintf('3 -> Illinois\n');
+fprintf('4 -> Newton Raphson\n');
+fprintf('5 -> Secant\n');
+fprintf('6 -> Fixed Point\n');
+
+choice = input('Enter method number: ');
+
+switch choice
+
+    case 1
+        root = Bisection(f,a,b,tol,Iter);
+        method = 'Bisection';
+
+    case 2
+        root = Regula_Falsi(f,a,b,tol,Iter);
+        method = 'Regula Falsi';
+
+    case 3
+        root = Illinois(f,a,b,tol,Iter);
+        method = 'Illinois';
+
+    case 4
+        root = Newton_Raphson(f,df,x0,tol,Iter);
+        method = 'Newton Raphson';
+
+    case 5
+        root = Secant(f,x0,x1,tol,Iter);
+        method = 'Secant';
+
+    case 6
+        root = Fixed_Point(g,x0,tol,Iter);
+        method = 'Fixed Point';
+
+    otherwise
+        error('Invalid Method Selected');
+end
+
+fprintf('\nRoot using %s Method : %.8f\n',method,root);
+fprintf('Root using %s Method : %.8f\n',method,root);
+
+function root = Bisection(f,a,b,tol,Iter)
+
+    if f(a)*f(b) > 0
+        error('No sign change in interval')
+    end
+
+    for k = 1:Iter
+        c = (a+b)/2;
+
+        if abs(f(c)) < tol || abs(b-a) < tol
+            root = c;
+            return
+        end
+
+        if f(a)*f(c) < 0
+            b = c;
+        else
+            a = c;
+        end
+    end
+end
+
+function root = Regula_Falsi(f,a,b,tol,Iter)
+
+    for k = 1:Iter
+        c = (a*f(b)-b*f(a))/(f(b)-f(a));
+
+        if abs(f(c)) < tol
+            root = c;
+            return
+        end
+
+        if f(a)*f(c) < 0
+            b = c;
+        else
+            a = c;
+        end
+    end
+end
+
+function root = Illinois(f,a,b,tol,Iter)
+
+    fa = f(a);
+    fb = f(b);
+
+    for k = 1:Iter
+
+        c = (a*fb - b*fa)/(fb-fa);
+        fc = f(c);
+
+        if abs(fc) < tol
+            root = c;
+            return
+        end
+
+        if fa*fc < 0
+            b = c;
+            fb = fc;
+            fa = fa/2;
+        else
+            a = c;
+            fa = fc;
+            fb = fb/2;
+        end
+    end
+end
+
+function root = Newton_Raphson(f,df,x0,tol,Iter)
+
+    for k = 1:Iter
+
+        if df(x0) == 0
+            error('Derivative zero. Method fails.')
+        end
+
+        x1 = x0 - f(x0)/df(x0);
+
+        if abs(x1-x0) < tol
+            root = x1;
+            return
+        end
+
+        x0 = x1;
+    end
+end
+
+function root = Secant(f,x0,x1,tol,Iter)
+
+    for k = 1:Iter
+
+        if f(x1)-f(x0) == 0
+            error('Division by zero in Secant')
+        end
+
+        x2 = x1 - f(x1)*(x1-x0)/(f(x1)-f(x0));
+
+        if abs(x2-x1) < tol
+            root = x2;
+            return
+        end
+
+        x0 = x1;
+        x1 = x2;
+    end
+end
+
+function root = Fixed_Point(g,x0,tol,Iter)
+
+    for k = 1:Iter
+
+        x1 = g(x0);
+
+        if abs(x1-x0) < tol
+            root = x1;
+            return
+        end
+
+        x0 = x1;
+    end
+end
