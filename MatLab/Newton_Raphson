@@ -1,0 +1,30 @@
+# Code
+f  = @(x) (x-1).^5;
+df = @(x) 5*(x-1).^4; 
+
+x0 = 2;                
+tol = 1e-6;
+Iter = 100;
+
+root = Newton_Raphson(f,df,x0,tol,Iter);
+fprintf('Root using Newton Raphson Method : %.7f\n',root);
+
+function root = Newton_Raphson(f,df,x0,tol,Iter)
+
+    for k = 1:Iter
+        
+        x1 = x0 - f(x0)/df(x0);
+
+        if abs(x1 - x0) < tol
+            root = x1;
+            return
+        end
+
+        x0 = x1;
+    end
+end
+
+#When to use:
+-> Function is differentiable
+-> Derivative available
+-> Continuous function
