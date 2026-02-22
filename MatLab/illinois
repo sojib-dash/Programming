@@ -1,0 +1,41 @@
+# Illinois/ Improved Regula Falsi
+#Code
+f = @(x) (x-1).^5;
+a = -5;
+b = 3;
+tol = 1e-6;
+Iter = 100;
+
+root = Illinois(f,a,b,tol,Iter);
+fprintf('Root using Illinois Method : %.7f\n',root);
+
+function root = Illinois(f,a,b,tol,Iter)
+
+    fa = f(a);
+    fb = f(b);
+
+    for k = 1:Iter
+        
+        c = (a*fb - b*fa)/(fb - fa);
+        fc = f(c);
+
+        if abs(fc) < tol || abs(a-b) < tol
+            root = c;
+            return
+        end
+
+        if fa*fc < 0
+            b = c;
+            fb = fc;
+            fa = fa/2;   
+        else
+            a = c;
+            fa = fc;
+        end
+    end
+end
+
+# When to use
+-> Function is continuous
+-> Sign change exists
+-> Odd multiplicity roots
