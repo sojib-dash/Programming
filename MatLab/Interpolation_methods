@@ -1,0 +1,121 @@
+clc; clear;
+
+% Sample Data
+x = [0 1 2 3];
+y = [1 2 1 10];
+
+xp = 1.5;
+
+fprintf('Available Methods:\n');
+fprintf('1 -> newton_forward\n');
+fprintf('2 -> newton_backward\n');
+fprintf('3 -> lagrange\n');
+fprintf('4 -> newton_divided\n');
+
+method = lower(input('Enter method name: ','s'));
+
+switch method
+
+    case 'newton_forward'
+        yp = Newton_Forward(x,y,xp);
+        name = 'Newton Forward';
+
+    case 'newton_backward'
+        yp = Newton_Backward(x,y,xp);
+        name = 'Newton Backward';
+
+    case 'lagrange'
+        yp = Lagrange(x,y,xp);
+        name = 'Lagrange';
+
+    case 'newton_divided'
+        yp = Newton_Divided(x,y,xp);
+        name = 'Newton Divided Difference';
+
+    otherwise
+        error('Invalid method selected');
+end
+
+fprintf('\nInterpolated value using %s Method = %.6f\n',name,yp);
+
+function yp = Newton_Forward(x,y,xp)
+    n = length(x);
+    h = x(2) - x(1);
+    p = (xp - x(1))/h;
+    
+    D = zeros(n,n);
+    D(:,1) = y';
+    
+    for j = 2:n
+        for i = 1:n-j+1
+            D(i,j) = D(i+1,j-1) - D(i,j-1);
+        end
+    end
+    
+    yp = y(1);
+    term = 1;
+    
+    for i = 1:n-1
+        term = term * (p - (i-1))/i;
+        yp = yp + term * D(1,i+1);
+    end
+end
+
+function yp = Newton_Backward(x,y,xp)
+    n = length(x);
+    h = x(2) - x(1);
+    p = (xp - x(n))/h;
+    
+    D = zeros(n,n);
+    D(:,1) = y';
+    
+    for j = 2:n
+        for i = n:-1:j
+            D(i,j) = D(i,j-1) - D(i-1,j-1);
+        end
+    end
+    
+    yp = y(n);
+    term = 1;
+    
+    for i = 1:n-1
+        term = term * (p + (i-1))/i;
+        yp = yp + term * D(n,i+1);
+    end
+end
+
+function yp = Lagrange(x,y,xp)
+    n = length(x);
+    yp = 0;
+    
+    for i = 1:n
+        L = 1;
+        for j = 1:n
+            if i ~= j
+                L = L * (xp - x(j))/(x(i) - x(j));
+            end
+        end
+        yp = yp + y(i)*L;
+    end
+end
+
+function yp = Newton_Divided(x,y,xp)
+    n = length(x);
+    D = zeros(n,n);
+    D(:,1) = y';
+    
+    % Divided difference table
+    for j = 2:n
+        for i = 1:n-j+1
+            D(i,j) = (D(i+1,j-1) - D(i,j-1)) / (x(i+j-1) - x(i));
+        end
+    end
+    
+    yp = D(1,1);
+    prod_term = 1;
+    
+    for i = 1:n-1
+        prod_term = prod_term * (xp - x(i));
+        yp = yp + prod_term * D(1,i+1);
+    end
+end
