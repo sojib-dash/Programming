@@ -1,0 +1,29 @@
+#Code
+f = @(x) (x-1).^5;
+
+x0 = -2;
+x1 = 2;
+tol = 1e-6;
+Iter = 100;
+
+root = Secant(f,x0,x1,tol,Iter);
+fprintf('Root using Secant Method : %.7f\n',root);
+
+function root = Secant(f,x0,x1,tol,Iter)
+
+    for k = 1:Iter
+        
+        x2 = x1 - f(x1)*(x1-x0)/(f(x1)-f(x0));
+
+        if abs(x2 - x1) < tol
+            root = x2;
+            return
+        end
+
+        x0 = x1;
+        x1 = x2;
+    end
+end
+
+#When to use:
+-> Derivative not available
