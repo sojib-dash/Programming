@@ -1,0 +1,28 @@
+#Code
+g = @(x) 1 + (x-1).^5;
+
+x0 = 0;
+tol = 1e-6;
+Iter = 100;
+
+root = Fixed_Point(g,x0,tol,Iter);
+fprintf('Root using Fixed Point Iteration : %.7f\n',root);
+
+function root = Fixed_Point(g,x0,tol,Iter)
+
+    for k = 1:Iter
+        
+        x1 = g(x0);
+
+        if abs(x1 - x0) < tol
+            root = x1;
+            return
+        end
+
+        x0 = x1;
+    end
+end
+
+#When to use
+-> When equation can be rewritten as x = g(x)
+-> |g'(x)| < 1 near root
