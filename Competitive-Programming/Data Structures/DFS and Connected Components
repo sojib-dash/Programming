@@ -1,0 +1,54 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long int
+//--------------------------------------
+#define N 200005
+vector <int> adjacents[N];
+void adjacent(int n, int m){
+    for(int i=0;i<m;i++){
+        int u,v;
+        cin >> u >> v; 
+        adjacents[u].push_back(v);
+        adjacents[v].push_back(u);
+    }
+}
+//----------------------------------------
+vector <bool> visited(N,false);
+vector<vector<int>> find_connected_component(int n){
+    vector<vector<int>> components;
+    for(int i=0;i<n;i++){
+        if(!visited[i]){
+            vector <int> comp;
+            dfs(comp,i);
+            components.push_back(comp);
+        }
+    }
+    return components;
+}
+vector <int> dfs(vector <int>& comp, int u){
+    visited[u]=true;
+    comp.push_back(u);
+    for(int v:adjacents[u]){
+        if(!visited[v]){
+            dfs(comp,v);
+        }
+    }
+}
+//-------------------------------------------
+
+int main() {
+    // ios::sync_with_stdio(0);
+    // cin.tie(0);
+    // cout.tie(0);
+    int t;
+    cin >> t;
+    while(t--){
+        int n,m;
+        cin >> n >> m;
+        adjacent(n,m);
+        vector<vector<int>> components=find_connected_component(n);
+        for(auto comp:components){
+            //
+        }
+    }
+}
