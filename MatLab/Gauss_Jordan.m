@@ -11,8 +11,8 @@ for i=1:n
     if Aug(i,i) == 0
         for k=i+1:n
             if Aug(k,i) ~= 0
-                temp = A(i,:);
-                A(i,:) = Aug(k,:);
+                temp = Aug(i,:);
+                Aug(i,:) = Aug(k,:);
                 Aug(k,:) = temp;
                 break;
             end
