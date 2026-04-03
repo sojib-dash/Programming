@@ -31,6 +31,6 @@ for i=1:n
 end
 disp('Reduced Row Echelon Form:');
 disp(Aug);
-disp('X:')
+disp('Solution:')
 X=Aug(:,end);
 disp(X);
