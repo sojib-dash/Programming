@@ -1,4 +1,4 @@
-!Modified Euler method is also called predictor - corrector method
+%Modified Euler method is also called predictor - corrector method
 clear;clc;
 f = @(x,y) x+y;
 x=0;
