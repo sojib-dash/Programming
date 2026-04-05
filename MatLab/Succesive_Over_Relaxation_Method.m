@@ -1,5 +1,5 @@
-! When the matrix is diagonally dominent
-! Modified version of Gauss Seidel Method 
+% When the matrix is diagonally dominent
+% Modified version of Gauss Seidel Method 
 clear;clc;
 A = [10 1 1;
      2 10 1;
