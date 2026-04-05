@@ -1,4 +1,4 @@
-! When the matrix is diagonally dominent,then jacobi method can be applied.
+% When the matrix is diagonally dominent,then jacobi method can be applied.
 clear;clc;
 A = [10 5 1; 
     7 11 2;
