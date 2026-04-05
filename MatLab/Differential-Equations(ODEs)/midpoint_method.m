@@ -1,0 +1,15 @@
+clear;clc;
+f = @(x,y) x+y;
+x=0;
+y=1;
+h=0.1;
+n=10;
+
+for i=1:n
+    y_=y+(h/2)*f(x,y);
+    y=y+h*f(x+h/2,y_);
+    x=x+h;
+    fprintf('x = %.2f, y = %.10f\n', x, y);
+end
+disp('y = ');
+disp(y);
