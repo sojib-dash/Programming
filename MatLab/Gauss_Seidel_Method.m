@@ -1,5 +1,5 @@
-! When the matrix is diagonally dominent
-! Modified Jacobi
+% When the matrix is diagonally dominent
+% Modified Jacobi
 clear;clc;
 A = [10 5 1; 
     7 11 2;
