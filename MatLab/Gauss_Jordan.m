@@ -19,7 +19,7 @@ for i=1:n
         end
     end
     if Aug(i,i)==0
-        error('Infinite Solution Exist');
+        error('No Unique Solution Exist');
     end
     Aug(i,:) = Aug(i,:) / Aug(i,i);
     for j=1:n
