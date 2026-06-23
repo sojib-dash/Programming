@@ -45,18 +45,18 @@ subroutine bisection (a,b,tol,root,iteration,out)
     do i=1,iteration
         mid=(left+right)/2.0
         fmid=f(mid)
-    write(out, '(I4,4F15.6)') i,left,right,mid,fmid
-    if (abs(fmid)<tol)then 
-        root=mid
-        return 
-    end if 
-    if (fa*fmid>0.0) then 
-        left=mid 
-        fa=fmid 
-    else
-        right=mid 
-        fb=fmid
-    end if
+        write(out, '(I4,4F15.6)') i,left,right,mid,fmid
+        if (abs(fmid)<tol)then 
+            root=mid
+            return 
+        end if 
+        if (fa*fmid>0.0) then 
+            left=mid 
+            fa=fmid 
+        else
+            right=mid 
+            fb=fmid
+        end if
     end do  
     root=(left+right)/2.0
 end subroutine bisection
